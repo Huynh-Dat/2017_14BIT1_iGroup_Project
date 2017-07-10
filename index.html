@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="pokemonFacts">
+  <head>
+    <meta charset="utf-8">
+    <title>Pokemon Facts and Quiz</title>
+
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>Pokemon Facts Quiz</h1>
+        <h3>Learn about all the pokemon below before you decide to take on the <strong>POKEMON QUIZ</strong></h3>
+      </div>
+
+      <div ng-controller="listControl as list" ng-hide="list.quizMetrics.quizActive || list.quizMetrics.resultsActive">
+        <form class="form-inline well well-sm clearfix">
+          <span class="glyphicon glyphicon-search"></span>
+          <input type="text"
+                placeholder="Search..."
+                class="form-control"
+                ng-model="list.search">
+          <button class="btn btn-warning pull-right"
+                  ng-click="list.activateQuiz()"><strong>Start Quiz</strong></button>
+        </form>
+
+        <div class="row">
+          <div class="col-sm-4" ng-repeat="pokemon in list.data | filter:list.search">
+            <div class="well well-sm">
+              <div class="row">
+                <div class="col-md-6">
+                     <img ng-src="{{pokemon.image_url}}"
+                         class="img-rounded img-responsive well-image">
+                </div>
+                <div class="col-md-6">
+                  <h4><strong>{{pokemon.name}}</strong></h4>
+
+                  <p><strong>Category: </strong>{{pokemon.category}}</p>
+                  <p><strong>Height: </strong>{{pokemon.height}}</p>
+                  <p><strong>Weight: </strong>{{pokemon.weight}}</p>
+                  <p><strong>Type: </strong>{{pokemon.type}}</p>
+                  <p><strong>Weaknesses: </strong>{{pokemon.weaknesses}}</p>
+                  <button class="btn btn-primary pull-right"
+                          data-toggle="modal"
+                          data-target="#pokemon-info"
+                          ng-click="list.changeActivePokemon(pokemon)">Learn More</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal" id="pokemon-info">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2><strong>{{list.activePokemon.name}}</strong></h2>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-xs-8 col-xs-offset-2">
+                    <img ng-src="{{list.activePokemon.image_url}}"
+                        class="img-rounded img-responsive">
+                  </div>
+                </div>
+                <div class="row top-buffer">
+                  <div class="col-md-6">
+                    <p><strong>Category: </strong>{{list.activePokemon.category}}</p>
+                    <p><strong>Height: </strong>{{list.activePokemon.height}}</p>
+                    <p><strong>Weight: </strong>{{list.activePokemon.weight}}</p>
+                    <p><strong>Type: </strong>{{list.activePokemon.type}}</p>
+                    <p><strong>Weaknesses: </strong>{{list.activePokemon.weaknesses}}</p>
+                  </div>
+                  <div class="col-xs-12 top-buffer">
+                    <p>{{list.activePokemon.description}}</p>
+                    <button class="btn btn-danger pull-right"
+                            data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
